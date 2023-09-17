@@ -1,17 +1,25 @@
-[gd_scene format=3 uid="uid://cvxrt3h3q3kcx"]
+[gd_scene load_steps=2 format=3 uid="uid://cvxrt3h3q3kcx"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_6e7yn"]
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_6e7yn")
+metadata/_edit_vertical_guides_ = [960.0]
 
 [node name="Play" type="Button" parent="."]
-offset_left = 342.0
-offset_top = 538.0
-offset_right = 500.0
-offset_bottom = 594.0
+offset_left = 576.0
+offset_top = 832.0
+offset_right = 832.0
+offset_bottom = 960.0
 text = "Play"
 
 [node name="Quit" type="Button" parent="."]
-offset_left = 644.0
-offset_top = 539.0
-offset_right = 802.0
-offset_bottom = 595.0
+offset_left = 1088.0
+offset_top = 840.0
+offset_right = 1344.0
+offset_bottom = 960.0
+tooltip_text = "This is the quit button."
 text = "Quit"
+
+[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_button_pressed"]
