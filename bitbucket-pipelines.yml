@@ -8,4 +8,4 @@ pipelines:
         script:
           - git clone --bare git@bitbucket.org:jr_tutorials_000_031823/freecodecamp-org-crash-course-for-beginners
           - cd freecodecamp-org-crash-course-for-beginners.git
-          - git push --mirror git@github.com:RepoOrg/josh-reeves/freecodecamp-org-crash-course-for-beginners
+          - git push --mirror git@github.com:josh-reeves/freecodecamp-org-crash-course-for-beginners
