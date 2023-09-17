@@ -1,10 +1,19 @@
-[gd_scene format=3 uid="uid://olkv0s2vhd5k"]
+[gd_scene load_steps=3 format=3 uid="uid://olkv0s2vhd5k"]
+
+[ext_resource type="PackedScene" uid="uid://co7mxs1ptu5um" path="res://Player/Player.tscn" id="1_nycpy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xf75n"]
+size = Vector2(1920.5, 397)
 
 [node name="world" type="Node2D"]
+metadata/_edit_vertical_guides_ = [960.0]
+metadata/_edit_horizontal_guides_ = [592.0]
 
-[node name="Label" type="Label" parent="."]
-offset_left = 488.0
-offset_top = 312.0
-offset_right = 671.0
-offset_bottom = 338.0
-text = "This is the World Scene."
+[node name="Player" parent="." instance=ExtResource("1_nycpy")]
+position = Vector2(64, 552)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(960, 880)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_xf75n")
