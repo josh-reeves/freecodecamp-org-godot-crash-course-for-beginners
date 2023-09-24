@@ -12,11 +12,8 @@ public partial class BG : ParallaxBackground
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		scrollOffset = ScrollOffset;
-
-		scrollOffset.X -= (float)(scrollSpeed * delta);
-
-		ScrollOffset = scrollOffset;
+		ScrollOffset = new Vector2((float)(ScrollOffset.X - (scrollSpeed * delta)), 0);
 
 	}
+	
 }
