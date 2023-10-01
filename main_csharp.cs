@@ -15,7 +15,7 @@ public partial class main_csharp : Node2D
 				
 	}
 
-		private void _on_play_pressed()
+	private void _on_play_pressed()
 	{
 		GetTree().ChangeSceneToFile("res://world.tscn");
 		

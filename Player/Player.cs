@@ -13,13 +13,13 @@ public partial class Player : CharacterBody2D
 
 	AnimationPlayer playerAnim;
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		playerAnim = (AnimationPlayer)GetNode("AnimationPlayer");
 
-    }
+	}
 
-    public override void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
 
