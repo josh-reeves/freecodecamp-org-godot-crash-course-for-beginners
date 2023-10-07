@@ -8,6 +8,9 @@ public partial class Player : CharacterBody2D
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
+	public const float Speed = 300.0f;
+	public const float JumpVelocity = -400.0f;
+
 	public enum State
 	{
 		Idle,
@@ -20,10 +23,10 @@ public partial class Player : CharacterBody2D
 
 	public State playerState;
 
+//	public bool bounce;
+
 	[Export]
-	public float bounceStrength = -200.0f,
-				 Speed = 300.0f,
-				 JumpVelocity = -400.0f;
+	public float bounceStrength = -200.0f;
 
 	AnimationPlayer playerAnim;
 	Vector2 velocity,
@@ -61,34 +64,32 @@ public partial class Player : CharacterBody2D
 
 		}
 
-		velocity.X = direction.X * Speed;
-
 		switch (playerState)
 		{
 			case State.Idle:
-				playerAnim.Play("Idle");
-
 				velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+				playerAnim.Play("Idle");
 
 				JumpCheck();
 				RunCheck();
 
-				// Debug.Print("Idle");
+				Debug.Print("Idle");
 
 				break;
 
 			case State.Run:
+				velocity.X = direction.X * Speed;
 				playerAnim.Play("Run");
 
 				IdleCheck();
 				JumpCheck();
 
-				// Debug.Print("Run");
+				Debug.Print("Run");
 
 				break;
 
 			case State.Jump:
-				playerAnim.Play("Jump");
+				velocity.X = direction.X * Speed;
 
 				if (IsOnFloor())
 				{
@@ -96,14 +97,16 @@ public partial class Player : CharacterBody2D
 
 				}
 
+				playerAnim.Play("Jump");
+
 				FallCheck();
 
-				// Debug.Print("Jump");
+				Debug.Print("Jump");
 
 				break;
 
 			case State.Bounce:
-				playerAnim.Play("Jump");
+				velocity.X = direction.X * Speed;
 
 				if (IsOnFloor())
 				{
@@ -111,24 +114,81 @@ public partial class Player : CharacterBody2D
 
 				}
 
+				playerAnim.Play("Jump");
+
 				FallCheck();
 
-				// Debug.Print("Bounce");
+				Debug.Print("Bounce");
 
 				break;
 
 			case State.Fall:
+				velocity.X = direction.X * Speed;
 				playerAnim.Play("Fall");
 
 				IdleCheck();
 				RunCheck();
 
-				// Debug.Print("Fall");
+				Debug.Print("Fall");
 
 				break;
 
 		}
 
+/*		// Handle Jump.
+		if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
+		{
+			velocity.Y = JumpVelocity;
+
+			playerAnim.Play("Jump");
+
+		}
+
+		// Handle bounce effects.
+		if (bounce)
+		{
+			// Check to ensure that bounce strength is a negative number. If not, invert it.
+			if (bounceStrength > 0)
+			{
+				bounceStrength *= -1;
+
+			}
+
+			velocity.Y = bounceStrength;
+
+			bounce = false;
+
+		}
+
+		if (direction != Vector2.Zero)
+		{
+			velocity.X = direction.X * Speed;
+
+			if (velocity.Y == 0)
+			{
+				playerAnim.Play("Run");
+
+			}
+
+		}
+		else
+		{
+			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+
+			if (velocity.Y == 0)
+			{
+				playerAnim.Play("Idle");
+
+			}
+
+		}
+
+		if (velocity.Y > 0)
+		{
+			playerAnim.Play("Fall");
+
+		}
+*/
 		Velocity = velocity;
 		MoveAndSlide();
 		
@@ -146,9 +206,13 @@ public partial class Player : CharacterBody2D
 
 	public void RunCheck()
 	{
-		if (direction != Vector2.Zero && velocity.Y == 0)
+		if (direction != Vector2.Zero)
 		{
-			playerState = State.Run;
+			if (velocity.Y == 0)
+			{
+				playerState = State.Run;
+
+			}
 
 		}
 

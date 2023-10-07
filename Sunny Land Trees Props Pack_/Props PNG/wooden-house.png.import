@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccxkdt5vjqttx"
-path="res://.godot/imported/all.png-48556dfee660151c47cced0380f317e3.ctex"
+uid="uid://drh7ilpgrbe70"
+path="res://.godot/imported/wooden-house.png-ed0deaecd03c52abcd1863ffa9de3ad8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sunny Land Trees Props Pack /previews/all.png"
-dest_files=["res://.godot/imported/all.png-48556dfee660151c47cced0380f317e3.ctex"]
+source_file="res://Sunny Land Trees Props Pack_/Props PNG/wooden-house.png"
+dest_files=["res://.godot/imported/wooden-house.png-ed0deaecd03c52abcd1863ffa9de3ad8.ctex"]
 
 [params]
 

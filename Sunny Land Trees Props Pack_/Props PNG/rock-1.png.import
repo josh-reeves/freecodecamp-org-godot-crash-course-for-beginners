@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://e0s0eb4an4y5"
-path="res://.godot/imported/rock-1.png-17a5152cdab720bd64df66f7eb1036ba.ctex"
+path="res://.godot/imported/rock-1.png-46d6f2eb5848ab0921c4725606444fec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sunny Land Trees Props Pack /Props PNG/rock-1.png"
-dest_files=["res://.godot/imported/rock-1.png-17a5152cdab720bd64df66f7eb1036ba.ctex"]
+source_file="res://Sunny Land Trees Props Pack_/Props PNG/rock-1.png"
+dest_files=["res://.godot/imported/rock-1.png-46d6f2eb5848ab0921c4725606444fec.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drh7ilpgrbe70"
-path="res://.godot/imported/wooden-house.png-c4cbb0a63fefe53be62e3f3684110d1a.ctex"
+uid="uid://djqid5xu1fqks"
+path="res://.godot/imported/straw-house.png-397ce79ef145c6f20461101099ca75d4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sunny Land Trees Props Pack /Props PNG/wooden-house.png"
-dest_files=["res://.godot/imported/wooden-house.png-c4cbb0a63fefe53be62e3f3684110d1a.ctex"]
+source_file="res://Sunny Land Trees Props Pack_/Props PNG/straw-house.png"
+dest_files=["res://.godot/imported/straw-house.png-397ce79ef145c6f20461101099ca75d4.ctex"]
 
 [params]
 

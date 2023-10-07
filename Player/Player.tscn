@@ -265,7 +265,7 @@ shape = SubResource("CapsuleShape2D_rpnoi")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6pqmi")
-animation = &"Idle"
+animation = &"Run"
 frame = 1
 metadata/_edit_lock_ = true
 

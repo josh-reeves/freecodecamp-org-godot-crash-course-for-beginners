@@ -1,17 +1,28 @@
 using Godot;
 using System;
 using System.Diagnostics;
+using System.Dynamic;
+using System.Threading.Tasks;
 
 public partial class Frog : CharacterBody2D
 {
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+	public bool chase;
+
 	[Export]			 
 	public float moveSpeed = 5;
 
-	public CharacterBody2D player;
+	public Player player;
 	public Vector2 playerDir;
-	public bool chase;
+	public AnimatedSprite2D animatedSprite2D;
+
+	public override void _Ready()
+	{
+		player = (Player)GetNode($"../../Player");
+		animatedSprite2D = (AnimatedSprite2D)GetNode("AnimatedSprite2D");
+
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -23,13 +34,13 @@ public partial class Frog : CharacterBody2D
 
 		}
 
-		if (chase)
+		if (chase && animatedSprite2D.Animation != "Death")
 		{
 			if (playerDir.X > 0)
 			{
 				// Debug.Print("Right");
 
-				((AnimatedSprite2D)GetNode("AnimatedSprite2D")).FlipH = true;
+				animatedSprite2D.FlipH = true;
 
 			}
 
@@ -37,11 +48,20 @@ public partial class Frog : CharacterBody2D
 			{
 				// Debug.Print("Left");
 
-				((AnimatedSprite2D)GetNode("AnimatedSprite2D")).FlipH = false;
+				animatedSprite2D.FlipH = false;
 
 			}
 
-			velocity.X += (float)((playerDir.X * moveSpeed) * delta);
+			animatedSprite2D.Play("Jump");
+
+			velocity.X = (playerDir.X * moveSpeed) * (float)delta;
+
+		}
+		else if (animatedSprite2D.Animation != "Death")
+		{
+			animatedSprite2D.Play("Idle");
+
+			velocity.X = 0;
 
 		}
 		else
@@ -59,13 +79,11 @@ public partial class Frog : CharacterBody2D
 	{
 		if (body.Name == "Player")
 		{
-			player = (CharacterBody2D)GetNode($"../../Player");
-
 			playerDir = (player.Position - Position);
 			chase = true;
 
-			Debug.Print("Player");
-			Debug.Print(Convert.ToString(player.GlobalPosition));
+			// Debug.Print("Player");
+			// Debug.Print(Convert.ToString(player.GlobalPosition));
 
 		}
 
@@ -81,10 +99,22 @@ public partial class Frog : CharacterBody2D
 
 	}
 	
+	public async void _on_hitbox_body_entered(Node2D body)
+	{
+		if (body.Name == "Player")
+		{
+			// Debug.Print("Player");
+
+			((AnimatedSprite2D)GetNode("AnimatedSprite2D")).Play("Death");
+
+			player.playerState = Player.State.Bounce;
+		
+			await ToSignal((AnimatedSprite2D)GetNode("AnimatedSprite2D"), "animation_finished" );			
+
+			QueueFree();
+
+		}
+
+	}
+	
 }
-
-
-
-
-
-

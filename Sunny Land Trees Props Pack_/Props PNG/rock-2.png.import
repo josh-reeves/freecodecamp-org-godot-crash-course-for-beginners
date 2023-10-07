@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://din8hycii5c7a"
-path="res://.godot/imported/tree-house.png-9eabe8aa31c8fbcd0b85c96d75a72527.ctex"
+uid="uid://drw5s6tcgffl8"
+path="res://.godot/imported/rock-2.png-27f497859d4e768736a89f778a367873.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sunny Land Trees Props Pack /Props PNG/tree-house.png"
-dest_files=["res://.godot/imported/tree-house.png-9eabe8aa31c8fbcd0b85c96d75a72527.ctex"]
+source_file="res://Sunny Land Trees Props Pack_/Props PNG/rock-2.png"
+dest_files=["res://.godot/imported/rock-2.png-27f497859d4e768736a89f778a367873.ctex"]
 
 [params]
 
