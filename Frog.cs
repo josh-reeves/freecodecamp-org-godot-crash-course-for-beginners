@@ -101,7 +101,7 @@ public partial class Frog : CharacterBody2D
 	
 	public async void _on_hitbox_body_entered(Node2D body)
 	{
-		if (body.Name == "Player")
+		if (body == player)
 		{
 			// Debug.Print("Player");
 
@@ -116,5 +116,35 @@ public partial class Frog : CharacterBody2D
 		}
 
 	}
+
+	private void _on_player_damage_body_entered(Node2D body)
+	{
+		if (body == player)
+		{
+			Vector2 playerVol = player.Velocity;
+
+			player.hitPoints -= 1;
+
+			Debug.Print($"Hit Points: {Convert.ToString(player.hitPoints)}");
+
+			if (playerDir.X > 0)
+			{
+				playerVol.X = 1500;
+
+			}
+			else
+			{
+				playerVol.X = -1500;
+
+			}
+
+			player.Velocity = playerVol;
+
+		}
+
+	}
 	
 }
+
+
+

@@ -20,29 +20,43 @@ public partial class Player : CharacterBody2D
 
 	public State playerState;
 
+	int i = 0;
+
 	[Export]
 	public float bounceStrength = -200.0f,
 				 Speed = 300.0f,
 				 JumpVelocity = -400.0f;
+	[Export]
+	public int hitPoints = 3;
 
-	AnimationPlayer playerAnim;
+	AnimationPlayer animationPlayer;
 	Vector2 velocity,
 			direction;
-
+	HBoxContainer healthUI = new HBoxContainer();
+	TextureRect heartContainer;
+	
 	public override void _Ready()
 	{
-		playerAnim = (AnimationPlayer)GetNode("AnimationPlayer");
+		animationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
+		healthUI = (HBoxContainer)GetNode("CanvasLayer/HBoxContainer");
 
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		// Get the input direction.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-
 		velocity = Velocity;
 
+		// Add the gravity.
+		if (!IsOnFloor())
+		{
+			velocity.Y += gravity * (float)delta;
+
+		}
+
+		// Get input direction. As good practice, you should replace UI actions with custom gameplay actions.
+		direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+
+		// Sprite transformation to handle direction.
 		if (direction == Vector2.Left)
 		{
 			((AnimatedSprite2D)GetNode("AnimatedSprite2D")).FlipH = true;
@@ -54,41 +68,37 @@ public partial class Player : CharacterBody2D
 
 		}
 
-		// Add the gravity.
-		if (!IsOnFloor())
-		{
-			velocity.Y += gravity * (float)delta;
-
-		}
-
+		// Basic movement handling.
 		velocity.X = direction.X * Speed;
 
 		switch (playerState)
 		{
 			case State.Idle:
-				playerAnim.Play("Idle");
+				animationPlayer.Play("Idle");
 
 				velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 
 				JumpCheck();
 				RunCheck();
+				FallCheck();
 
 				// Debug.Print("Idle");
 
 				break;
 
 			case State.Run:
-				playerAnim.Play("Run");
+				animationPlayer.Play("Run");
 
 				IdleCheck();
 				JumpCheck();
+				FallCheck();
 
 				// Debug.Print("Run");
 
 				break;
 
 			case State.Jump:
-				playerAnim.Play("Jump");
+				animationPlayer.Play("Jump");
 
 				if (IsOnFloor())
 				{
@@ -103,7 +113,7 @@ public partial class Player : CharacterBody2D
 				break;
 
 			case State.Bounce:
-				playerAnim.Play("Jump");
+				animationPlayer.Play("Jump");
 
 				if (IsOnFloor())
 				{
@@ -118,7 +128,7 @@ public partial class Player : CharacterBody2D
 				break;
 
 			case State.Fall:
-				playerAnim.Play("Fall");
+				animationPlayer.Play("Fall");
 
 				IdleCheck();
 				RunCheck();
@@ -131,6 +141,26 @@ public partial class Player : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();
+
+		if (i < hitPoints)
+		{
+			heartContainer = new TextureRect();
+			heartContainer.Texture = (Texture2D)ResourceLoader.Load("res://Heart-Pixel_001/Heart-Pixel_001_001_64px.png");
+
+			healthUI.AddChild(heartContainer);
+
+			Debug.Print($"Hit Points: {Convert.ToString(hitPoints)}\n" +
+						$"Children: {Convert.ToString(healthUI.GetChildCount())}");
+
+			i++;
+
+		}
+
+		if (healthUI.GetChildCount() > hitPoints)
+		{
+			healthUI.GetChild(healthUI.GetChildCount() - 1).QueueFree();
+
+		}
 		
 	}
 
@@ -175,3 +205,5 @@ public partial class Player : CharacterBody2D
 	}
 
 }
+
+
