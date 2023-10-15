@@ -9,6 +9,9 @@ public partial class GameOver : Node2D
 		Timer timer = (Timer)GetNode("Timer");
 
 		await ToSignal(timer, "timeout");
+		
+		Game.globalHitPoints = 3;
+		Game.SaveGame();
 
 		GetTree().ChangeSceneToFile("res://main.tscn");
 

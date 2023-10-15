@@ -3,12 +3,12 @@ using System;
 
 public partial class PauseMenu : Panel
 {
-	Game game = new Game();
 	Player player;
 
 	public override void _Ready()
 	{
 		player = (Player)GetNode("../../.");
+
 
 	}
 
@@ -46,9 +46,8 @@ public partial class PauseMenu : Panel
 
 	private void _on_btn_save_pressed()
 	{
-		game.globalHitPoints = player.hitPoints;
-
-		game.SaveGame();
+		Game.globalHitPoints = player.hitPoints;
+		Game.SaveGame();
 
 		GetTree().Quit();
 

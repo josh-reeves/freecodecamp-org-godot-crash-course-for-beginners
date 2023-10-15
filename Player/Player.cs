@@ -26,7 +26,7 @@ public partial class Player : CharacterBody2D
 				 Speed = 300.0f,
 				 JumpVelocity = -400.0f;
 	[Export]
-	public int hitPoints = 3;
+	public int hitPoints;
 
 	AnimationPlayer animationPlayer;
 	Vector2 velocity,
@@ -34,13 +34,13 @@ public partial class Player : CharacterBody2D
 	HBoxContainer healthUI = new HBoxContainer();
 	TextureRect heartContainer;
 	AudioStreamPlayer playerSFX;
-	Game game = new Game();
 	
 	public override void _Ready()
 	{
 		animationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
 		healthUI = (HBoxContainer)GetNode("CanvasLayer/HBoxContainer");
 		playerSFX = (AudioStreamPlayer)GetNode("PlayerSFX");
+		hitPoints = Game.globalHitPoints;
 
 	}
 

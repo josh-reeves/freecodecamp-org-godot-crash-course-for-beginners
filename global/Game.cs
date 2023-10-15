@@ -1,34 +1,60 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
 public partial class Game : Node
 {
-	private string savePath = "user://savegame.bin",
-				   saveContents;
+	private static string filePath = "user://savegame.bin",
+				   		  saveContents;
 
-	Dictionary saveData = new Dictionary();
+	private static Godot.FileAccess saveFile;
+	private static Godot.Collections.Dictionary saveData = new Dictionary();
+	private static Json jsonHandle = new Json();
 
-	public int globalHitPoints{ get; set;}
+	public static int globalHitPoints{ get; set;} = 3;
 	
-	public void SaveGame()
+	public static void SaveGame()
 	{
+		saveData.Clear();
 		saveData.Add("HitPoints", globalHitPoints);
 
 		saveContents = Json.Stringify(saveData);
 
-		Godot.FileAccess.Open(savePath, Godot.FileAccess.ModeFlags.Write).StoreString(saveContents);
+		saveFile = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Write);
+		saveFile.StoreString(saveContents);
 		
 	}
 
-	public void LoadGame()
+	public static void LoadGame()
 	{
-		if (Godot.FileAccess.FileExists(savePath))
+		if (Godot.FileAccess.FileExists(filePath))
 		{
-			Godot
+			saveFile = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Read);
+
+			while (saveFile.GetPosition() < saveFile.GetLength())
+			{
+				if (jsonHandle.Parse(saveFile.GetLine()) == Error.Ok)
+				{
+					saveData = (Godot.Collections.Dictionary)jsonHandle.Data;
+
+				}
+
+			}
+
+			foreach (var (key, value) in saveData )
+			{
+				if ((string)key == "HitPoints")
+				{
+					globalHitPoints = (int)value;
+
+				}
+
+			}
 
 		}
 
