@@ -1,7 +1,9 @@
-[gd_scene load_steps=26 format=3 uid="uid://co7mxs1ptu5um"]
+[gd_scene load_steps=31 format=3 uid="uid://co7mxs1ptu5um"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_7iujc"]
 [ext_resource type="Texture2D" uid="uid://de87uk7urdb8m" path="res://Sunny-land-assets-files/PNG/spritesheets/player-hurt.png" id="2_bcbxm"]
+[ext_resource type="SystemFont" uid="uid://csakvkk2ocj51" path="res://bitcount_mono.tres" id="2_kr7sk"]
+[ext_resource type="Script" path="res://Player/PauseMenu.cs" id="2_umasr"]
 [ext_resource type="Texture2D" uid="uid://dioec4aobiljq" path="res://Sunny-land-assets-files/PNG/sprites/player/idle/player-idle-1.png" id="3_8ol5n"]
 [ext_resource type="Texture2D" uid="uid://ckm8oux7ynan7" path="res://Sunny-land-assets-files/PNG/sprites/player/idle/player-idle-2.png" id="4_qv7mi"]
 [ext_resource type="Texture2D" uid="uid://caghy3388u25h" path="res://Sunny-land-assets-files/PNG/sprites/player/idle/player-idle-3.png" id="5_wq1mt"]
@@ -14,6 +16,16 @@
 [ext_resource type="Texture2D" uid="uid://c64migutt0tjf" path="res://Sunny-land-assets-files/PNG/sprites/player/run/player-run-4.png" id="12_bj1yp"]
 [ext_resource type="Texture2D" uid="uid://c851f3lxpj23v" path="res://Sunny-land-assets-files/PNG/sprites/player/run/player-run-5.png" id="13_17kin"]
 [ext_resource type="Texture2D" uid="uid://bj8w5j8i3l30p" path="res://Sunny-land-assets-files/PNG/sprites/player/run/player-run-6.png" id="14_jev72"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nm22x"]
+bg_color = Color(0.227451, 0.227451, 0.227451, 0.843137)
+
+[sub_resource type="LabelSettings" id="LabelSettings_13d75"]
+font = ExtResource("2_kr7sk")
+font_size = 200
+font_color = Color(0.929412, 0.929412, 0.929412, 1)
+shadow_size = 5
+shadow_color = Color(0.0196078, 0.0196078, 0.0196078, 0.392157)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rpnoi"]
 radius = 8.0
@@ -105,6 +117,46 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(1, 1), Vector2(4, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_ielup"]
+resource_name = "Damaged"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Death"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_wxs0r"]
@@ -216,6 +268,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(4, 4)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_3b104"]
 resource_name = "Run"
@@ -249,6 +313,7 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a48s2"]
 _data = {
 "CameraZoom": SubResource("Animation_q0s6a"),
+"Damaged": SubResource("Animation_ielup"),
 "Fall": SubResource("Animation_wxs0r"),
 "Idle": SubResource("Animation_tfrl2"),
 "Jump": SubResource("Animation_olo81"),
@@ -258,13 +323,55 @@ _data = {
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_7iujc")
+metadata/_edit_vertical_guides_ = [960.0]
+metadata/_edit_horizontal_guides_ = [540.0]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="PauseMenu" type="Panel" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_nm22x")
+script = ExtResource("2_umasr")
+
+[node name="Label" type="Label" parent="CanvasLayer/PauseMenu"]
+layout_mode = 0
+offset_left = 664.0
+offset_top = 456.0
+offset_right = 1264.0
+offset_bottom = 659.0
+theme_override_fonts/font = ExtResource("2_kr7sk")
+theme_override_font_sizes/font_size = 100
+text = "PAUSE"
+label_settings = SubResource("LabelSettings_13d75")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="btnSave" type="Button" parent="CanvasLayer/PauseMenu"]
+layout_mode = 0
+offset_left = 896.0
+offset_top = 680.0
+offset_right = 1024.0
+offset_bottom = 744.0
+text = "SAVE"
+
+[node name="btnContinue" type="Button" parent="CanvasLayer/PauseMenu"]
+layout_mode = 0
+offset_left = 896.0
+offset_top = 776.0
+offset_right = 1024.0
+offset_bottom = 840.0
+text = "CONTINUE"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
-offset_right = 16.0
-offset_bottom = 16.0
+offset_left = 32.0
+offset_top = 24.0
+offset_right = 48.0
+offset_bottom = 40.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)
@@ -272,7 +379,7 @@ shape = SubResource("CapsuleShape2D_rpnoi")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6pqmi")
-animation = &"Death"
+animation = &"Idle"
 frame = 1
 metadata/_edit_lock_ = true
 
@@ -287,3 +394,14 @@ autoplay = "Idle"
 libraries = {
 "": SubResource("AnimationLibrary_a48s2")
 }
+
+[node name="PlayerSFX" type="AudioStreamPlayer" parent="."]
+volume_db = -20.0
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-1.5, 5)
+scale = Vector2(0.95, 1.1)
+
+[connection signal="pressed" from="CanvasLayer/PauseMenu/btnSave" to="CanvasLayer/PauseMenu" method="_on_btn_save_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/btnContinue" to="CanvasLayer/PauseMenu" method="_on_btn_continue_pressed"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

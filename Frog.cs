@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 public partial class Frog : CharacterBody2D
 {
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
-	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle(),
+				 hitVelocity;
 	public bool chase;
 
 	[Export]			 
@@ -36,25 +37,30 @@ public partial class Frog : CharacterBody2D
 
 		if (chase && animatedSprite2D.Animation != "Death")
 		{
-			if (playerDir.X > 0)
-			{
-				// Debug.Print("Right");
+			playerDir = (player.Position - Position);
 
+			if (playerDir.X > 5)
+			{
 				animatedSprite2D.FlipH = true;
+
+				velocity.X = moveSpeed;
+
+				// Debug.Print("Right");
 
 			}
 
-			if (playerDir.X < 0)
+			if (playerDir.X < -5)
 			{
-				// Debug.Print("Left");
-
 				animatedSprite2D.FlipH = false;
+
+				velocity.X = moveSpeed * -1;
+
+				// Debug.Print("Left");
 
 			}
 
 			animatedSprite2D.Play("Jump");
 
-			velocity.X = (playerDir.X * moveSpeed) * (float)delta;
 
 		}
 		else if (animatedSprite2D.Animation != "Death")
@@ -79,7 +85,6 @@ public partial class Frog : CharacterBody2D
 	{
 		if (body.Name == "Player")
 		{
-			playerDir = (player.Position - Position);
 			chase = true;
 
 			// Debug.Print("Player");
@@ -119,26 +124,20 @@ public partial class Frog : CharacterBody2D
 
 	private void _on_player_damage_body_entered(Node2D body)
 	{
+		if (playerDir.X > 0)
+		{
+			hitVelocity = 250;
+
+		}
+		else
+		{
+			hitVelocity = -250;			
+
+		}
+
 		if (body == player)
 		{
-			Vector2 playerVol = player.Velocity;
-
-			player.hitPoints -= 1;
-
-			Debug.Print($"Hit Points: {Convert.ToString(player.hitPoints)}");
-
-			if (playerDir.X > 0)
-			{
-				playerVol.X = 1500;
-
-			}
-			else
-			{
-				playerVol.X = -1500;
-
-			}
-
-			player.Velocity = playerVol;
+			player.TakeDamage(hitVelocity, 1);
 
 		}
 

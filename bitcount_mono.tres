@@ -1,0 +1,4 @@
+[gd_resource type="SystemFont" format=3 uid="uid://csakvkk2ocj51"]
+
+[resource]
+font_names = PackedStringArray("Bitcount Mono Single")

@@ -14,13 +14,12 @@ public partial class Player : CharacterBody2D
 		Run,
 		Jump,
 		Bounce,
-		Fall
+		Fall,
+		Damaged
 
 	}
 
 	public State playerState;
-
-	int i = 0;
 
 	[Export]
 	public float bounceStrength = -200.0f,
@@ -34,11 +33,14 @@ public partial class Player : CharacterBody2D
 			direction;
 	HBoxContainer healthUI = new HBoxContainer();
 	TextureRect heartContainer;
+	AudioStreamPlayer playerSFX;
+	Game game = new Game();
 	
 	public override void _Ready()
 	{
 		animationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
 		healthUI = (HBoxContainer)GetNode("CanvasLayer/HBoxContainer");
+		playerSFX = (AudioStreamPlayer)GetNode("PlayerSFX");
 
 	}
 
@@ -137,26 +139,32 @@ public partial class Player : CharacterBody2D
 
 				break;
 
+			case State.Damaged:
+
+				break;
+
 		}
 
-		Velocity = velocity;
+		if (playerState != State.Damaged)
+		{
+			Velocity = velocity;
+
+		}
+
 		MoveAndSlide();
 
-		if (i < hitPoints)
+		if (healthUI.GetChildCount() < hitPoints)
 		{
 			heartContainer = new TextureRect();
-			heartContainer.Texture = (Texture2D)ResourceLoader.Load("res://Heart-Pixel_001/Heart-Pixel_001_001_64px.png");
+			heartContainer.Texture = (Texture2D)ResourceLoader.Load("res://Heart_003/Heart_003_64px.png");
 
 			healthUI.AddChild(heartContainer);
 
-			Debug.Print($"Hit Points: {Convert.ToString(hitPoints)}\n" +
-						$"Children: {Convert.ToString(healthUI.GetChildCount())}");
-
-			i++;
+			// Debug.Print($"Hit Points: {Convert.ToString(hitPoints)}\n" +
+			//			   $"Children: {Convert.ToString(healthUI.GetChildCount())}");
 
 		}
-
-		if (healthUI.GetChildCount() > hitPoints)
+		else if (healthUI.GetChildCount() > hitPoints)
 		{
 			healthUI.GetChild(healthUI.GetChildCount() - 1).QueueFree();
 
@@ -204,6 +212,50 @@ public partial class Player : CharacterBody2D
 
 	}
 
+	public async void TakeDamage(float xVelocity, int damage)
+	{
+		playerState = State.Damaged;
+
+		animationPlayer.Play("Damaged");
+
+		playerSFX.Stream = (AudioStream)ResourceLoader.Load("res://Dmg_Lo-Fi_002.mp3");
+		playerSFX.Play();
+		
+		velocity.X = xVelocity;
+		Velocity = velocity;
+		
+		await ToSignal(animationPlayer, "animation_finished");
+
+		hitPoints -= damage;
+		if (hitPoints <= 0)
+		{
+			Death();
+
+		}
+
+		IdleCheck();
+		RunCheck();
+		JumpCheck();
+		FallCheck();
+
+	}
+
+	public void Death()
+	{
+		QueueFree();
+		GetTree().ChangeSceneToFile("res://game-over.tscn");
+
+	}
+	
+	private void _on_visible_on_screen_notifier_2d_screen_exited()
+	{
+		Death();
+
+	}
+
 }
+
+
+
 
 

@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://txu0aqygq1kq"]
+
+[ext_resource type="Script" path="res://GameOver.cs" id="1_keogq"]
+[ext_resource type="Texture2D" uid="uid://ed7ithgh5wx6" path="res://Game-Over_001.png" id="1_xrxv7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oq0r1"]
+bg_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
+
+[node name="Game-Over" type="Node2D"]
+script = ExtResource("1_keogq")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+offset_right = 1920.0
+offset_bottom = 1088.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_oq0r1")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+offset_left = 560.0
+offset_top = 144.0
+offset_right = 1360.0
+offset_bottom = 944.0
+texture = ExtResource("1_xrxv7")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
