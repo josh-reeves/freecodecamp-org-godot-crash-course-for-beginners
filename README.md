@@ -3,11 +3,10 @@
 **Please note that, with the exception of those listed below, I do not claim ownership or authorship of any of the graphical or audio assets in this repository. All other assets were downloaded from [ansimuz.itch.io](https://ansimuz.itch.io/sunny-land-pixel-game-art) as instructed by the tutorial that this project originated from.**
   
 Assets exempted from the above statement:
-    - the contents of Heart-Pixel_001
-    - the contents of Heart_002
-    - the contents of Heart_003
-    - Dmg_Lo-Fi_002.mp3
-    - Game-Over_001.png
+- the contents of Heart-Pixel_001 - the contents of Heart_002
+- the contents of Heart_003
+- Dmg_Lo-Fi_002.mp3
+- Game-Over_001.png
 
 **I am not affiliated with freecodecamp.org.**
 
