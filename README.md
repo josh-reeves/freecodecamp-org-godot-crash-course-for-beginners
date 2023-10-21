@@ -10,7 +10,7 @@ Assets exempted from the above statement:
 - Game-Over_001.png
 <br /><br />
 **I am not affiliated with freecodecamp.org.**
-<br/><br />
+<br /><br />
 ### About
 This is a variation of the project created by the tutorial located [here](https://www.youtube.com/watch?v=S8lMTwSRoRg&ab_channel=freeCodeCamp.org). The most obvious change to this version is the use of C# instead of GDScript. Unfortunately, I have not kept track of the other differences until now, as I originally had no intention of making this repository public. Given some of the obstacles and opportunities encountered due to my choice of language, however, and the various changes made as a result, I thought it might prove helpful for anyone attempting to learn Godot using C#. Below is (I think) a complete list of changes from the original project. I will add additional changes and details as I create or come across them.
 
