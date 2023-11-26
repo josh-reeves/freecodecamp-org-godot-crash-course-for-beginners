@@ -61,3 +61,13 @@ public partial class Game : Node
 	}
 	
 }
+
+public abstract partial class Stage : Node2D
+{
+	// Variable Properties:
+	public int collectableTotal {get; set;}
+
+	// Object Properties:
+	public Player player {get; set;}
+
+}
