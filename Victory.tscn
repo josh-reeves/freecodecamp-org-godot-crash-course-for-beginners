@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://txu0aqygq1kq"]
+[gd_scene load_steps=6 format=3 uid="uid://dvvuy52dq223d"]
 
-[ext_resource type="Script" path="res://GameOver.cs" id="1_keogq"]
+[ext_resource type="Script" path="res://Victory.cs" id="1_87p0p"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oq0r1"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_clnlx"]
 bg_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
 
 [sub_resource type="SystemFont" id="SystemFont_esb08"]
@@ -12,26 +12,26 @@ font_names = PackedStringArray("Bitcount Mono Single")
 base_font = SubResource("SystemFont_esb08")
 variation_embolden = 4.16334e-17
 
-[sub_resource type="LabelSettings" id="LabelSettings_274rt"]
+[sub_resource type="LabelSettings" id="LabelSettings_gxofi"]
 line_spacing = 2.08165e-12
 font = SubResource("FontVariation_y6511")
 font_size = 150
 
-[node name="Game-Over" type="Node2D"]
-script = ExtResource("1_keogq")
+[node name="Victory" type="Node2D"]
+script = ExtResource("1_87p0p")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Panel" type="Panel" parent="CanvasLayer"]
 offset_right = 1944.0
 offset_bottom = 1104.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_oq0r1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_clnlx")
 
 [node name="Label" type="Label" parent="CanvasLayer"]
 offset_right = 1920.0
 offset_bottom = 1088.0
-text = "GAME OVER"
-label_settings = SubResource("LabelSettings_274rt")
+text = "CONGRATULATIONS!"
+label_settings = SubResource("LabelSettings_gxofi")
 horizontal_alignment = 1
 vertical_alignment = 1
 

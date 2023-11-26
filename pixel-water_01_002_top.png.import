@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4pgwwf2lpsy"
-path="res://.godot/imported/pine.png-a4da365b2e4ab8cea5005056a5d4ae4f.ctex"
+uid="uid://cq0adw413o6m6"
+path="res://.godot/imported/pixel-water_01_002_top.png-f6d329c2467947b427a9e27378aa2f1f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sunnyland Trees/Sprites/Sliced Trees/pine.png"
-dest_files=["res://.godot/imported/pine.png-a4da365b2e4ab8cea5005056a5d4ae4f.ctex"]
+source_file="res://pixel-water_01_002_top.png"
+dest_files=["res://.godot/imported/pixel-water_01_002_top.png-f6d329c2467947b427a9e27378aa2f1f.ctex"]
 
 [params]
 

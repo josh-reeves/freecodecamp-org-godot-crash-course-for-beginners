@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ed7ithgh5wx6"
-path="res://.godot/imported/Game-Over_001.png-e05fddae9177039b4557169aa804cf7a.ctex"
+uid="uid://b3ix6rv0g1at5"
+path="res://.godot/imported/BasicWaterFill.png-c21be52202abaacd42f77377738353a4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game-Over_001.png"
-dest_files=["res://.godot/imported/Game-Over_001.png-e05fddae9177039b4557169aa804cf7a.ctex"]
+source_file="res://BasicWaterFill.png"
+dest_files=["res://.godot/imported/BasicWaterFill.png-c21be52202abaacd42f77377738353a4.ctex"]
 
 [params]
 

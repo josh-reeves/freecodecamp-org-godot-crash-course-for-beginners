@@ -136,7 +136,7 @@ shape = SubResource("RectangleShape2D_gcq6x")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_icbc5")
-animation = &"Idle"
+animation = &"Jump"
 autoplay = "Idle"
 metadata/_edit_lock_ = true
 
@@ -156,6 +156,8 @@ shape = SubResource("RectangleShape2D_acupa")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDamage"]
 position = Vector2(-0.5, 2)
 shape = SubResource("RectangleShape2D_41c6n")
+
+[node name="EnemySFX" type="AudioStreamPlayer" parent="."]
 
 [connection signal="body_entered" from="DetectionRadius" to="." method="_on_detection_radius_body_entered"]
 [connection signal="body_exited" from="DetectionRadius" to="." method="_on_detection_radius_body_exited"]

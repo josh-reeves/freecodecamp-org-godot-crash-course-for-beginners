@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4pgwwf2lpsy"
-path="res://.godot/imported/pine.png-a4da365b2e4ab8cea5005056a5d4ae4f.ctex"
+uid="uid://2tiv62nt3la5"
+path="res://.godot/imported/cherry2.png-ff4bbb1849f4ec7f3a8efdccede72d70.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sunnyland Trees/Sprites/Sliced Trees/pine.png"
-dest_files=["res://.godot/imported/pine.png-a4da365b2e4ab8cea5005056a5d4ae4f.ctex"]
+source_file="res://Sunny-land-assets-files/PNG/spritesheets/cherry2.png"
+dest_files=["res://.godot/imported/cherry2.png-ff4bbb1849f4ec7f3a8efdccede72d70.ctex"]
 
 [params]
 

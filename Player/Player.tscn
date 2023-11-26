@@ -1,10 +1,11 @@
-[gd_scene load_steps=31 format=3 uid="uid://co7mxs1ptu5um"]
+[gd_scene load_steps=37 format=3 uid="uid://co7mxs1ptu5um"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_7iujc"]
 [ext_resource type="Texture2D" uid="uid://de87uk7urdb8m" path="res://Sunny-land-assets-files/PNG/spritesheets/player-hurt.png" id="2_bcbxm"]
 [ext_resource type="SystemFont" uid="uid://csakvkk2ocj51" path="res://bitcount_mono.tres" id="2_kr7sk"]
 [ext_resource type="Script" path="res://Player/PauseMenu.cs" id="2_umasr"]
 [ext_resource type="Texture2D" uid="uid://dioec4aobiljq" path="res://Sunny-land-assets-files/PNG/sprites/player/idle/player-idle-1.png" id="3_8ol5n"]
+[ext_resource type="Texture2D" uid="uid://cdk45sbwbl01c" path="res://Sunny-land-assets-files/PNG/sprites/cherry/cherry-1.png" id="4_q6pyb"]
 [ext_resource type="Texture2D" uid="uid://ckm8oux7ynan7" path="res://Sunny-land-assets-files/PNG/sprites/player/idle/player-idle-2.png" id="4_qv7mi"]
 [ext_resource type="Texture2D" uid="uid://caghy3388u25h" path="res://Sunny-land-assets-files/PNG/sprites/player/idle/player-idle-3.png" id="5_wq1mt"]
 [ext_resource type="Texture2D" uid="uid://bygpo2y4pt7qu" path="res://Sunny-land-assets-files/PNG/sprites/player/idle/player-idle-4.png" id="6_7nq4v"]
@@ -26,6 +27,56 @@ font_size = 200
 font_color = Color(0.929412, 0.929412, 0.929412, 1)
 shadow_size = 5
 shadow_color = Color(0.0196078, 0.0196078, 0.0196078, 0.392157)
+
+[sub_resource type="SystemFont" id="SystemFont_ohk3a"]
+font_names = PackedStringArray("Bitcount Mono Single")
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_lry42"]
+line_spacing = 2.08165e-12
+font_size = 75
+outline_size = 7
+outline_color = Color(0.164706, 0.164706, 0.164706, 1)
+
+[sub_resource type="Animation" id="Animation_1hg66"]
+resource_name = "CollectableCounterFlash"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collectables/CountLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true, false, true, false, true]
+}
+
+[sub_resource type="Animation" id="Animation_rbut6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collectables/CountLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_5ftdq"]
+resource_name = "new_animation"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_evfh4"]
+_data = {
+"CollectableCounterFlash": SubResource("Animation_1hg66"),
+"RESET": SubResource("Animation_rbut6"),
+"new_animation": SubResource("Animation_5ftdq")
+}
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rpnoi"]
 radius = 8.0
@@ -103,21 +154,6 @@ animations = [{
 "name": &"Run",
 "speed": 5.0
 }]
-
-[sub_resource type="Animation" id="Animation_q0s6a"]
-resource_name = "CameraZoom"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Camera2D:zoom")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(4, 4)]
-}
 
 [sub_resource type="Animation" id="Animation_ielup"]
 resource_name = "Damaged"
@@ -280,6 +316,30 @@ tracks/2/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HUD/Collectables/CountLabel:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_3b104"]
 resource_name = "Run"
@@ -312,7 +372,6 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a48s2"]
 _data = {
-"CameraZoom": SubResource("Animation_q0s6a"),
 "Damaged": SubResource("Animation_ielup"),
 "Fall": SubResource("Animation_wxs0r"),
 "Idle": SubResource("Animation_tfrl2"),
@@ -326,9 +385,9 @@ script = ExtResource("1_7iujc")
 metadata/_edit_vertical_guides_ = [960.0]
 metadata/_edit_horizontal_guides_ = [540.0]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="PauseMenu" type="Panel" parent="CanvasLayer"]
+[node name="PauseMenu" type="Panel" parent="HUD"]
 process_mode = 3
 visible = false
 offset_right = 1920.0
@@ -336,7 +395,7 @@ offset_bottom = 1080.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_nm22x")
 script = ExtResource("2_umasr")
 
-[node name="Label" type="Label" parent="CanvasLayer/PauseMenu"]
+[node name="Label" type="Label" parent="HUD/PauseMenu"]
 layout_mode = 0
 offset_left = 664.0
 offset_top = 456.0
@@ -350,7 +409,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="btnSave" type="Button" parent="CanvasLayer/PauseMenu"]
+[node name="btnSave" type="Button" parent="HUD/PauseMenu"]
 layout_mode = 0
 offset_left = 896.0
 offset_top = 680.0
@@ -358,7 +417,7 @@ offset_right = 1024.0
 offset_bottom = 744.0
 text = "SAVE"
 
-[node name="btnContinue" type="Button" parent="CanvasLayer/PauseMenu"]
+[node name="btnContinue" type="Button" parent="HUD/PauseMenu"]
 layout_mode = 0
 offset_left = 896.0
 offset_top = 776.0
@@ -366,12 +425,39 @@ offset_right = 1024.0
 offset_bottom = 840.0
 text = "CONTINUE"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+[node name="HeartContainers" type="HBoxContainer" parent="HUD"]
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 offset_left = 32.0
 offset_top = 24.0
 offset_right = 48.0
 offset_bottom = 40.0
+
+[node name="Collectables" type="Node" parent="HUD"]
+
+[node name="CountIcon" type="TextureRect" parent="HUD/Collectables"]
+offset_left = 1824.0
+offset_top = 16.0
+offset_right = 1904.0
+offset_bottom = 96.0
+texture = ExtResource("4_q6pyb")
+
+[node name="CountLabel" type="Label" parent="HUD/Collectables"]
+offset_left = 1736.0
+offset_top = 16.0
+offset_right = 1816.0
+offset_bottom = 104.0
+theme_override_fonts/font = SubResource("SystemFont_ohk3a")
+theme_override_font_sizes/font_size = 80
+text = "0"
+label_settings = SubResource("LabelSettings_lry42")
+horizontal_alignment = 1
+vertical_alignment = 2
+text_direction = 1
+
+[node name="UIAnimations" type="AnimationPlayer" parent="HUD"]
+libraries = {
+"": SubResource("AnimationLibrary_evfh4")
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)
@@ -379,9 +465,8 @@ shape = SubResource("CapsuleShape2D_rpnoi")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6pqmi")
-animation = &"Idle"
+animation = &"Death"
 frame = 1
-metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -48)
@@ -389,7 +474,7 @@ zoom = Vector2(4, 4)
 limit_left = 0
 limit_bottom = 625
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="PlayerAnimations" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
 libraries = {
 "": SubResource("AnimationLibrary_a48s2")
@@ -399,9 +484,11 @@ libraries = {
 volume_db = -20.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-1.5, 5)
-scale = Vector2(0.95, 1.1)
+position = Vector2(1.19209e-07, 5)
+scale = Vector2(0.8, 1.1)
 
-[connection signal="pressed" from="CanvasLayer/PauseMenu/btnSave" to="CanvasLayer/PauseMenu" method="_on_btn_save_pressed"]
-[connection signal="pressed" from="CanvasLayer/PauseMenu/btnContinue" to="CanvasLayer/PauseMenu" method="_on_btn_continue_pressed"]
+[node name="Node2D" type="Node2D" parent="."]
+
+[connection signal="pressed" from="HUD/PauseMenu/btnSave" to="HUD/PauseMenu" method="_on_btn_save_pressed"]
+[connection signal="pressed" from="HUD/PauseMenu/btnContinue" to="HUD/PauseMenu" method="_on_btn_continue_pressed"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

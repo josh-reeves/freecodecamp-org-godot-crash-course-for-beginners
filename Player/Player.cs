@@ -15,11 +15,14 @@ public partial class Player : CharacterBody2D
 		Jump,
 		Bounce,
 		Fall,
-		Damaged
+		Damaged,
+		Victory
 
 	}
 
 	public State playerState;
+
+	public int collectableCount = 0; // Integer to track the number of collectables acquired.
 
 	[Export]
 	public float bounceStrength = -200.0f,
@@ -28,17 +31,21 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public int hitPoints;
 
-	AnimationPlayer animationPlayer;
-	Vector2 velocity,
-			direction;
-	HBoxContainer healthUI = new HBoxContainer();
+	AnimationPlayer playerAnimations,
+					uiAnimations;
+	HBoxContainer healthUI;
+	Label collectableUI;
 	TextureRect heartContainer;
 	AudioStreamPlayer playerSFX;
+	Vector2 velocity,
+		direction;
 	
 	public override void _Ready()
 	{
-		animationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
-		healthUI = (HBoxContainer)GetNode("CanvasLayer/HBoxContainer");
+		playerAnimations = (AnimationPlayer)GetNode("PlayerAnimations");
+		uiAnimations = (AnimationPlayer)GetNode("HUD/UIAnimations");
+		healthUI = (HBoxContainer)GetNode("HUD/HeartContainers");
+		collectableUI = (Label)GetNode("HUD/Collectables/CountLabel");
 		playerSFX = (AudioStreamPlayer)GetNode("PlayerSFX");
 		hitPoints = Game.globalHitPoints;
 
@@ -71,12 +78,14 @@ public partial class Player : CharacterBody2D
 		}
 
 		// Basic movement handling.
-		velocity.X = direction.X * Speed;
+		velocity.X = direction.X * Speed; /* This may be the cause of the elusive "flying" glitch I have so much trouble recreating. I'm wondering if this is overlapping with
+										   * other velocity handling code and basically resulting in a divide by 0 glitch somewhere? Either way, simplifying velocity hanlding
+										   * would make everything much cleaner and more stable.*/
 
 		switch (playerState)
 		{
 			case State.Idle:
-				animationPlayer.Play("Idle");
+				playerAnimations.Play("Idle");
 
 				velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 
@@ -89,7 +98,7 @@ public partial class Player : CharacterBody2D
 				break;
 
 			case State.Run:
-				animationPlayer.Play("Run");
+				playerAnimations.Play("Run");
 
 				IdleCheck();
 				JumpCheck();
@@ -100,7 +109,7 @@ public partial class Player : CharacterBody2D
 				break;
 
 			case State.Jump:
-				animationPlayer.Play("Jump");
+				playerAnimations.Play("Jump");
 
 				if (IsOnFloor())
 				{
@@ -115,7 +124,7 @@ public partial class Player : CharacterBody2D
 				break;
 
 			case State.Bounce:
-				animationPlayer.Play("Jump");
+				playerAnimations.Play("Jump");
 
 				if (IsOnFloor())
 				{
@@ -130,7 +139,7 @@ public partial class Player : CharacterBody2D
 				break;
 
 			case State.Fall:
-				animationPlayer.Play("Fall");
+				playerAnimations.Play("Fall");
 
 				IdleCheck();
 				RunCheck();
@@ -143,6 +152,10 @@ public partial class Player : CharacterBody2D
 
 				break;
 
+			case State.Victory:
+
+				break;
+
 		}
 
 		if (playerState != State.Damaged)
@@ -151,7 +164,7 @@ public partial class Player : CharacterBody2D
 
 		}
 
-		MoveAndSlide();
+		MoveAndSlide(); // Should automatically account for moving platforms according to documentation.
 
 		if (healthUI.GetChildCount() < hitPoints)
 		{
@@ -167,6 +180,18 @@ public partial class Player : CharacterBody2D
 		else if (healthUI.GetChildCount() > hitPoints)
 		{
 			healthUI.GetChild(healthUI.GetChildCount() - 1).QueueFree();
+
+		}
+
+		if (Convert.ToInt32(collectableUI.Text) != collectableCount) // Checks to see if the collectableUI's text value no longer matches the number of collectables acquired.
+		{
+			playerSFX.PitchScale = (float)(Convert.ToInt32(collectableUI.Text) * .0125) + 1; /* Increases the pitch and speed of the collectable sound effect based on the number of collectables acquired collectableCount is
+																							 * already 1 at this point. Converting UI text just before updating it prevents need for weird-looking extra math.*/
+
+			collectableUI.Text = Convert.ToString(collectableCount); // Update collectable UI text to match the number of collectables acquired.
+
+			playerSFX.Stream = (AudioStream)ResourceLoader.Load("res://collectables/collectable.mp3");
+			playerSFX.Play();
 
 		}
 		
@@ -216,15 +241,16 @@ public partial class Player : CharacterBody2D
 	{
 		playerState = State.Damaged;
 
-		animationPlayer.Play("Damaged");
+		playerAnimations.Play("Damaged");
 
+		playerSFX.PitchScale = 1;
 		playerSFX.Stream = (AudioStream)ResourceLoader.Load("res://Dmg_Lo-Fi_002.mp3");
 		playerSFX.Play();
 		
 		velocity.X = xVelocity;
 		Velocity = velocity;
 		
-		await ToSignal(animationPlayer, "animation_finished");
+		await ToSignal(playerAnimations, "animation_finished");
 
 		hitPoints -= damage;
 		if (hitPoints <= 0)
@@ -250,6 +276,18 @@ public partial class Player : CharacterBody2D
 	private void _on_visible_on_screen_notifier_2d_screen_exited()
 	{
 		Death();
+
+	}
+	
+	public async void Victory()
+	{
+		GetTree().ChangeSceneToFile("res://victory.tscn");
+
+	}
+
+	public void UICollectableCounterFlash()
+	{
+		uiAnimations.Play("CollectableCounterFlash");
 
 	}
 

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class GameOver : Node2D
+public partial class Victory : Node2D
 {
 	// Called when the node enters the scene tree for the first time.
 	public override async void _Ready()
@@ -16,5 +16,5 @@ public partial class GameOver : Node2D
 		GetTree().ChangeSceneToFile("res://main.tscn");
 		
 	}
-
+	
 }
